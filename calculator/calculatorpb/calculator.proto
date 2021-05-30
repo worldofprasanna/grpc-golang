@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package="/calculator";
+
+message MathRequest {
+    int32 first_num = 1;
+    int32 second_num = 2;
+}
+
+message MathResponse {
+    int32 sum = 1;
+}
+
+message PrimeRequest {
+    int32 num = 1;
+}
+message PrimeResponse {
+    int32 prime_num = 2;
+}
+
+message AverageRequest {
+    int32 num = 1;
+}
+message AverageResponse {
+    double result = 1;
+}
+
+message FindMaxRequest {
+    int32 num = 1;
+}
+message FindMaxResponse {
+    int32 max_num = 1;
+}
+
+message SquareRootRequest {
+    int32 number = 1;
+}
+message SquareRootResponse {
+    double number_root = 1;
+}
+
+service CalculatorService {
+    rpc Add (MathRequest) returns (MathResponse) {};
+    rpc Prime(PrimeRequest) returns (stream PrimeResponse) {};
+    rpc Average(stream AverageRequest) returns (AverageResponse) {};
+    rpc FindMax(stream FindMaxRequest) returns (stream FindMaxResponse) {};
+
+    // error handling
+    // Negative numbers are not handled
+    // Error sent is INVALID_ARGUMENT
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {};
+}
